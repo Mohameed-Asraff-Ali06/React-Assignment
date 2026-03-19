@@ -2,33 +2,42 @@ import { useEffect, useState } from "react";
 import { fetchTransactions } from "../services/transactionsApi";
 
 export const useTransactions = () => {
-  const [transactionsState, setTransactionsState] = useState({
+  const [transactionsData, setTransactionsData] = useState({
     transactions: [],
-    isLoading: true,
+    loading: true,
     error: null,
   });
+
+  const getTransactions = async () => {
+    setTransactionsData((prev) => ({
+      ...prev,
+      loading: true, 
+      error: null,
+    }));
+
+    try {
+      const transactions = await fetchTransactions();
+
+      setTransactionsData({
+        transactions,
+        loading: false,
+        error: null,
+      });
+    } catch (err) {
+      setTransactionsData({
+        transactions: [],
+        loading: false,
+        error: err?.message || "Something went wrong",
+      });
+    }
+  };
+
   useEffect(() => {
-    const getTransactions = async () => {
-      try {
-        const transactions = await fetchTransactions();
-
-
-        setTransactionsState({
-          transactions,
-          isLoading: false,
-          error: null,
-        });
-      } catch (err) {
-        setTransactionsState({
-          transactions: [],
-          isLoading: false,
-          error: err.message,
-        });
-      }
-    };
-
     getTransactions();
   }, []);
 
-  return transactionsState;
+  return {
+    ...transactionsData,
+    retry: getTransactions, 
+  };
 };
