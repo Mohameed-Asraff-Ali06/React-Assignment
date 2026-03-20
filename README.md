@@ -153,7 +153,7 @@ npm test
 ![Monthly](src/assets/screenshots/monthlyTable.png)
 
 ### Total Rewards
-![Total](src/assets/screenshots/totalTable.png.png)
+![Total](src/assets/screenshots/totalTable.png)
 
 ### Searching
 ![Search](src/assets/screenshots/search.png)
