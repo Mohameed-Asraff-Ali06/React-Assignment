@@ -30,34 +30,6 @@ Customers earn:
 
 ---
 
-## Folder Structure
-
-src/
-├-- components/
-| |-- Header/
-│ | |-- Header.js
-│ |-- Table/
-│ │ ├-- Table.js
-│ │ ├-- Table.test.js
-│ │ ├-- TableBody.js
-│ │ ├-- tableColumns.js
-| | |-- TableHeader.js
-│ │ |-- tableUtils.js
-├-- data/
-│ |-- mockTransactions.js
-├-- hooks/
-│ |-- useTransactions.js
-├-- pages/
-│ |-- Dashboard.js
-├-- services/
-│ |-- transactionsApi.js
-├-- utils/
-│ |-- rewardUtils.js
-│ |-- rewardUtils.test.js
-├-- App.js
-
----
-
 ## Installation & Setup
 git clone https://github.com/Mohameed-Asraff-Ali06/React-Assignment.git
 cd rewards-app

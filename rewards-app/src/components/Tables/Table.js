@@ -16,9 +16,9 @@ const Table = ({ columns, data }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
-
   // Sorting
   const handleSort = (key) => {
+
     let direction = "asc";
 
     if (sortConfig.key === key && sortConfig.direction === "asc") {
@@ -29,24 +29,26 @@ const Table = ({ columns, data }) => {
   };
 
   const sortedData = useMemo(() => {
-    return sortData(data, sortConfig);
+    return sortData(data ?? [], sortConfig);
   }, [data, sortConfig]);
 
   // Filtering
   const filteredData = useMemo(() => {
     return sortedData.filter((row) =>
       Object.values(row).some((value) =>
-        String(value).toLowerCase().includes(searchTerm.toLowerCase()),
+        String(value ?? "")
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase()),
       ),
     );
   }, [sortedData, searchTerm]);
 
   // Pagination
-  const totalPages = Math.ceil(filteredData.length / ITEMS_PER_PAGE);
+  const totalPages = Math.ceil((filteredData?.length ?? 0) / ITEMS_PER_PAGE);
 
   const paginatedData = useMemo(() => {
     const start = (currentPage - 1) * ITEMS_PER_PAGE;
-    return filteredData.slice(start, start + ITEMS_PER_PAGE);
+    return filteredData?.slice(start, start + ITEMS_PER_PAGE) ?? [];
   }, [filteredData, currentPage]);
 
   return (
@@ -76,7 +78,7 @@ const Table = ({ columns, data }) => {
           onSort={handleSort}
           sortConfig={sortConfig}
         />
-        <TableBody data={paginatedData} columns={columns} />
+        <TableBody data={paginatedData ?? []} columns={columns} />
       </table>
 
       {/* Pagination */}

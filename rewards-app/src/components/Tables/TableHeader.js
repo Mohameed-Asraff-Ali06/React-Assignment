@@ -5,8 +5,8 @@ const TableHeader = ({ columns, onSort, sortConfig }) => {
   return (
     <thead className="bg-gray-300 border-b border-gray-400 text-gray-800">
       <tr>
-        {columns.map((col) => {
-          const isSorted = sortConfig.key === col.accessor;
+        {(columns ?? []).map((col) => {
+          const isSorted = sortConfig?.key === col.accessor;
 
           return (
             <th
@@ -23,7 +23,7 @@ const TableHeader = ({ columns, onSort, sortConfig }) => {
                 {col.sortable && (
                   <span className="text-xs">
                     {isSorted
-                      ? sortConfig.direction === "asc"
+                      ? sortConfig?.direction === "asc"
                         ? "▲"
                         : "▼"
                       : "⇅"}
