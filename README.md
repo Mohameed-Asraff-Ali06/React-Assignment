@@ -155,14 +155,20 @@ npm test
 ### Total Rewards
 ![Total](src/assets/screenshots/total.png)
 
-## Test Results
+### Searching
+![Search](src/assets/screenshots/search.png)
+
+### Sorting
+![Sorting](src/assets/screenshots/sorting.png)
+
+### Test Results
 
 All test cases passed successfully.
 
 ![Test Results](src/assets/screenshots/testResults.png)
 
 
-## Test Coverage
+### Test Coverage
 
 ![Test Coverage1](src/assets/screenshots/testCoverage1.png)
 
