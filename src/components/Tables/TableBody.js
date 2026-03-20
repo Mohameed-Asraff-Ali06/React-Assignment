@@ -1,5 +1,4 @@
 import PropTypes from "prop-types";
-import { FaRupeeSign } from "react-icons/fa";
 
 const TableBody = ({ data, columns }) => {
   return (
@@ -26,6 +25,7 @@ const TableBody = ({ data, columns }) => {
               >
                 {col.accessor === "price" ? (
                   <span className="flex items-center gap-1">
+                    <span>$</span>
                     {Number(row?.[col.accessor] ?? 0).toFixed(2)}
                   </span>
                 ) : (

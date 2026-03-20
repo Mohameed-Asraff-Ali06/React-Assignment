@@ -4,27 +4,33 @@ import {
   calculateTotalRewards,
 } from "./rewardUtils";
 
-// tests for rewardUtils.js
 describe("calculateRewardPoints", () => {
   test("returns 0 for price <= 50", () => {
+    expect(calculateRewardPoints(0)).toBe(0);
+    expect(calculateRewardPoints(50)).toBe(0);
     expect(calculateRewardPoints(40)).toBe(0);
   });
 
-  test("returns correct points for price = 100", () => {
+  test("returns correct points for price between 51-100", () => {
+    expect(calculateRewardPoints(60)).toBe(10);
+    expect(calculateRewardPoints(75)).toBe(25);
     expect(calculateRewardPoints(100)).toBe(50);
   });
 
   test("returns correct points for price > 100", () => {
     expect(calculateRewardPoints(120)).toBe(90);
+    expect(calculateRewardPoints(150)).toBe(150);
   });
 
   test("handles decimal values correctly", () => {
     expect(calculateRewardPoints(100.4)).toBe(50);
+    expect(calculateRewardPoints(120.9)).toBe(90);
   });
 
   test("handles invalid input", () => {
     expect(calculateRewardPoints(null)).toBe(0);
     expect(calculateRewardPoints(undefined)).toBe(0);
+    expect(calculateRewardPoints("abc")).toBe(0);
   });
 });
 
@@ -50,10 +56,13 @@ describe("aggregateMonthlyRewards", () => {
     },
   ];
 
+  test("returns empty array for empty input", () => {
+    expect(aggregateMonthlyRewards([])).toEqual([]);
+  });
+
   test("groups rewards by customer, month, and year", () => {
     const result = aggregateMonthlyRewards(transactions);
-
-    expect(result.length).toBe(2); // John (Dec), Alice (Jan)
+    expect(result.length).toBe(2);
   });
 
   test("calculates correct reward points per group", () => {
@@ -61,6 +70,24 @@ describe("aggregateMonthlyRewards", () => {
 
     const john = result.find((r) => r.customerId === 1);
     expect(john.rewardPoints).toBeGreaterThan(0);
+  });
+
+  test("handles multiple customers correctly", () => {
+    const result = aggregateMonthlyRewards(transactions);
+
+    const alice = result.find((r) => r.customerId === 2);
+    expect(alice).toBeDefined();
+    expect(alice.rewardPoints).toBeGreaterThan(0);
+  });
+
+  test("handles invalid or missing data safely", () => {
+    const badData = [
+      { customerId: 1, customerName: "John", date: null, price: 100 },
+      { customerId: 1, customerName: "John", price: 100 },
+    ];
+
+    const result = aggregateMonthlyRewards(badData);
+    expect(Array.isArray(result)).toBe(true);
   });
 });
 
@@ -83,10 +110,30 @@ describe("calculateTotalRewards", () => {
     },
   ];
 
+  test("returns empty array for empty input", () => {
+    expect(calculateTotalRewards([])).toEqual([]);
+  });
+
   test("aggregates total rewards per customer", () => {
     const result = calculateTotalRewards(monthlyData);
 
     const john = result.find((r) => r.customerId === 1);
     expect(john.totalRewardPoints).toBe(150);
+  });
+
+  test("handles multiple customers correctly", () => {
+    const result = calculateTotalRewards(monthlyData);
+
+    expect(result.length).toBe(2);
+  });
+
+  test("handles invalid data gracefully", () => {
+    const badData = [
+      { customerId: 1, customerName: "John" },
+      { customerId: 2, rewardPoints: null },
+    ];
+
+    const result = calculateTotalRewards(badData);
+    expect(Array.isArray(result)).toBe(true);
   });
 });
