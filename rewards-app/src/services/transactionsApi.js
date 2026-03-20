@@ -1,13 +1,18 @@
-import mockTransactionsData from "../data/mockTransactions";
 
-
-
+/**
+ * Fetch transactions data from mock API
+ * @returns {Promise<Array>} List of transactions
+ * @throws {Error} If fetch fails
+ */
 // Simulate API call to fetch transactions
-export const fetchTransactions = async () => {
-  const response = await Promise.resolve({
-    data: mockTransactionsData,
-  });
+export const fetchTransactionsData = async () => {
+  const response = await fetch("/mock/transactionsData.json");
 
+  if (!response.ok) {
+    throw new Error("Failed to fetch transactions");
+  }
 
-  return response.data;
+  const data = await response.json();
+
+  return data;
 };

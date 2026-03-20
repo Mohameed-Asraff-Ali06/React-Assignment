@@ -1,5 +1,8 @@
 /**
- * Sort data based on column and direction
+ * Sorts data based on key and direction
+ * @param {Array} data - Array of objects to sort
+ * @param {{key: string, direction: string}} sortConfig
+ * @returns {Array} Sorted array
  */
 export const sortData = (data = [], sortConfig) => {
   if (!sortConfig?.key) return data;

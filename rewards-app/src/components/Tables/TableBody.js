@@ -26,7 +26,6 @@ const TableBody = ({ data, columns }) => {
               >
                 {col.accessor === "price" ? (
                   <span className="flex items-center gap-1">
-                    <FaRupeeSign className="text-xs" />
                     {Number(row?.[col.accessor] ?? 0).toFixed(2)}
                   </span>
                 ) : (

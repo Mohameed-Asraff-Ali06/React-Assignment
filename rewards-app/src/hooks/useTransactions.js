@@ -1,43 +1,25 @@
-import { useEffect, useState } from "react";
-import { fetchTransactions } from "../services/transactionsApi";
-
+import { useFetch } from "./useFetch";
+import { fetchTransactionsData } from "../services/transactionsApi";
+/**
+ * Custom hook to fetch transactions data
+ * Uses generic useFetch hook internally
+ * @returns {{
+ *  transactions: Array,
+ *  loading: boolean,
+ *  error: string | null,
+ *  retry: Function
+ * }}
+ */
 export const useTransactions = () => {
-  const [transactionsData, setTransactionsData] = useState({
-    transactions: [],
-    loading: true,
-    error: null,
-  });
+  const { data, loading, error, retry } = useFetch(fetchTransactionsData);
 
-  const getTransactions = async () => {
-    setTransactionsData((prev) => ({
-      ...prev,
-      loading: true, 
-      error: null,
-    }));
-
-    try {
-      const transactions = await fetchTransactions();
-
-      setTransactionsData({
-        transactions,
-        loading: false,
-        error: null,
-      });
-    } catch (err) {
-      setTransactionsData({
-        transactions: [],
-        loading: false,
-        error: err?.message || "Something went wrong",
-      });
-    }
-  };
-
-  useEffect(() => {
-    getTransactions();
-  }, []);
+  // 👉 future logic can go here
+  const transactions = data ?? [];
 
   return {
-    ...transactionsData,
-    retry: getTransactions, 
+    transactions,
+    loading,
+    error,
+    retry,
   };
 };

@@ -61,6 +61,41 @@ npm test
 
 ---
 
+## Test Cases
+
+### Covered Scenarios
+
+- ✔ Reward points calculation
+- ✔ Monthly aggregation logic
+- ✔ Total reward calculation
+- ✔ Edge cases (empty data, multiple transactions)
+
+---
+
+## ✅ Test Results
+
+All test cases passed successfully.
+
+![Test Results](src/assets/screenshots/testResults.png)
+
+---
+
+## 📸 Screenshots
+
+### Dashboard
+![Dashboard](src/assets/screenshots/dashboard.png)
+
+### Transactions 
+![Transactions](src/assets/screenshots/transactionsTable.png)
+
+### Monthly Rewards
+![Monthly](src/assets/screenshots/monthly.png)
+
+### Total Rewards
+![Total](src/assets/screenshots/total.png)
+
+---
+
 ## Author
 NA
 
