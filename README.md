@@ -150,10 +150,10 @@ npm test
 ![Transactions](src/assets/screenshots/transactionsTable.png)
 
 ### Monthly Rewards
-![Monthly](src/assets/screenshots/monthly.png)
+![Monthly](src/assets/screenshots/monthlyTable.png)
 
 ### Total Rewards
-![Total](src/assets/screenshots/total.png)
+![Total](src/assets/screenshots/totalTable.png.png)
 
 ### Searching
 ![Search](src/assets/screenshots/search.png)
