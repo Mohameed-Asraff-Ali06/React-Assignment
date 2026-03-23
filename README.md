@@ -31,14 +31,14 @@ Customers earn:
 ---
 
 ## Installation & Setup
-git clone https://github.com/Mohameed-Asraff-Ali06/React-Assignment.git
-npm install
-npm start
+- git clone https://github.com/Mohameed-Asraff-Ali06/React-Assignment.git
+- npm install
+- npm start
 
 ---
 
 ## Running Tests
-npm test
+- npm test
 
 ---
 ##  Architecture Layers
