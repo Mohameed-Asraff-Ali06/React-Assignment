@@ -23,27 +23,27 @@ const Dashboard = () => {
 
   // Sort transactions by date
   const sortedTransactions = useMemo(() => {
-    return [...(transactions ?? [])].sort(
-      (a, b) => new Date(a?.date ?? 0) - new Date(b?.date ?? 0),
+    return [...(transactions || [])].sort(
+      (a, b) => new Date(a?.date || 0) - new Date(b?.date || 0),
     );
   }, [transactions]);
 
   // Add reward points to each transaction
   const transactionsWithPoints = useMemo(() => {
-    return (sortedTransactions ?? []).map((tx) => ({
+    return (sortedTransactions || []).map((tx) => ({
       ...tx,
-      rewardPoints: calculateRewardPoints(tx?.price ?? 0),
+      rewardPoints: calculateRewardPoints(tx?.price || 0),
     }));
   }, [sortedTransactions]);
 
   // Aggregate monthly rewards
   const monthly = useMemo(() => {
-    return aggregateMonthlyRewards(sortedTransactions ?? []);
+    return aggregateMonthlyRewards(sortedTransactions || []);
   }, [sortedTransactions]);
 
   // Calculate total rewards per customer
   const totalRewardPoints = useMemo(() => {
-    return calculateTotalRewards(monthly ?? []);
+    return calculateTotalRewards(monthly || []);
   }, [monthly]);
 
   // Find top customer
@@ -57,8 +57,8 @@ const Dashboard = () => {
 
   //total reward points  for all customers
   const totalCustomerPoints = useMemo(() => {
-    return (totalRewardPoints ?? []).reduce(
-      (sum, c) => sum + (c?.totalRewardPoints ?? 0),
+    return (totalRewardPoints || []).reduce(
+      (sum, c) => sum + (c?.totalRewardPoints || 0),
       0,
     );
   }, [totalRewardPoints]);
@@ -70,8 +70,8 @@ const Dashboard = () => {
     <div className="p-6">
       {/* Summary Cards */}
       <SummaryCards
-        totalCustomers={totalRewardPoints?.length ?? 0}
-        totalTransactions={transactions?.length ?? 0}
+        totalCustomers={totalRewardPoints?.length || 0}
+        totalTransactions={transactions?.length || 0}
         totalCustomerPoints={totalCustomerPoints}
       />
 
@@ -103,15 +103,15 @@ const Dashboard = () => {
       {/* 📋 Table */}
       <div>
         {activeTab === "transactions" && (
-          <Table columns={TRANSACTION_COLUMNS} data={transactionsWithPoints ?? []} />
+          <Table columns={TRANSACTION_COLUMNS} data={transactionsWithPoints || []} />
         )}
 
         {activeTab === "monthly" && (
-          <Table columns={MONTHLY_COLUMNS} data={monthly ?? []} />
+          <Table columns={MONTHLY_COLUMNS} data={monthly || []} />
         )}
 
         {activeTab === "total" && (
-          <Table columns={TOTAL_COLUMNS} data={totalRewardPoints ?? []} />
+          <Table columns={TOTAL_COLUMNS} data={totalRewardPoints || []} />
         )}
       </div>
     </div>

@@ -1,24 +1,8 @@
 import { useEffect, useState, useCallback } from "react";
 
-/**
- * Generic hook to fetch data using a provided async function.
- *
- * @param {Function} fetchFn - Async function that returns data (e.g., API call)
- *
- * @returns {{
- *  data: any,
- *  loading: boolean,
- *  error: string | null,
- *  retry: Function
- * }}
- *
- * @example
- * const { data, loading, error, retry } = useFetch(fetchTransactions);
- */
-
 export const useFetch = (fetchFn) => {
   const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false); 
   const [error, setError] = useState(null);
 
   const execute = useCallback(async () => {
@@ -27,9 +11,14 @@ export const useFetch = (fetchFn) => {
 
     try {
       const result = await fetchFn();
-      setData(result);
+
+      // ✅ Safe fallback
+      setData(Array.isArray(result) ? result : []);
     } catch (err) {
+      console.error("useFetch error:", err);
+
       setError(err?.message || "Something went wrong");
+      setData([]); // ✅ prevent UI crash
     } finally {
       setLoading(false);
     }

@@ -32,6 +32,17 @@ describe("calculateRewardPoints", () => {
     expect(calculateRewardPoints(undefined)).toBe(0);
     expect(calculateRewardPoints("abc")).toBe(0);
   });
+
+  test("handles unexpected errors gracefully", () => {
+    const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+
+    const result = calculateRewardPoints({}); // invalid type
+
+    expect(result).toBe(0);
+    
+
+    spy.mockRestore();
+  });
 });
 
 describe("aggregateMonthlyRewards", () => {
@@ -69,15 +80,21 @@ describe("aggregateMonthlyRewards", () => {
     const result = aggregateMonthlyRewards(transactions);
 
     const john = result.find((r) => r.customerId === 1);
-    expect(john.rewardPoints).toBeGreaterThan(0);
+
+    // John:
+    // 120 → 90
+    // 80 → 30
+    // Total = 120
+    expect(john.rewardPoints).toBe(120);
   });
 
   test("handles multiple customers correctly", () => {
     const result = aggregateMonthlyRewards(transactions);
 
     const alice = result.find((r) => r.customerId === 2);
+
     expect(alice).toBeDefined();
-    expect(alice.rewardPoints).toBeGreaterThan(0);
+    expect(alice.rewardPoints).toBe(250); // 200 → 250 points
   });
 
   test("handles invalid or missing data safely", () => {
@@ -87,7 +104,44 @@ describe("aggregateMonthlyRewards", () => {
     ];
 
     const result = aggregateMonthlyRewards(badData);
-    expect(Array.isArray(result)).toBe(true);
+
+    expect(result).toEqual([]);
+  });
+
+  test("skips transactions with invalid date", () => {
+    const badData = [
+      {
+        customerId: 1,
+        customerName: "John",
+        date: "invalid-date",
+        price: 100,
+      },
+    ];
+
+    const result = aggregateMonthlyRewards(badData);
+
+    expect(result).toEqual([]);
+  });
+
+  test("handles invalid input (non-array) safely", () => {
+    const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+
+    const result = aggregateMonthlyRewards(null);
+
+    expect(result).toEqual([]);
+    
+
+    spy.mockRestore();
+  });
+
+  test("ignores transactions without customerId", () => {
+    const data = [
+      { customerName: "John", date: "2024-12-10", price: 100 },
+    ];
+
+    const result = aggregateMonthlyRewards(data);
+
+    expect(result).toEqual([]);
   });
 });
 
@@ -114,11 +168,21 @@ describe("calculateTotalRewards", () => {
     expect(calculateTotalRewards([])).toEqual([]);
   });
 
-  test("aggregates total rewards per customer", () => {
+  test("aggregates total rewards per customer correctly", () => {
     const result = calculateTotalRewards(monthlyData);
 
-    const john = result.find((r) => r.customerId === 1);
-    expect(john.totalRewardPoints).toBe(150);
+    expect(result).toEqual([
+      {
+        customerId: 1,
+        customerName: "John",
+        totalRewardPoints: 150,
+      },
+      {
+        customerId: 2,
+        customerName: "Alice",
+        totalRewardPoints: 200,
+      },
+    ]);
   });
 
   test("handles multiple customers correctly", () => {
@@ -134,6 +198,18 @@ describe("calculateTotalRewards", () => {
     ];
 
     const result = calculateTotalRewards(badData);
+
     expect(Array.isArray(result)).toBe(true);
+  });
+
+  test("handles invalid input and logs error", () => {
+    const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+
+    const result = calculateTotalRewards(null);
+
+    expect(result).toEqual([]);
+    
+
+    spy.mockRestore();
   });
 });

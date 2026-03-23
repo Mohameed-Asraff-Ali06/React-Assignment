@@ -1,3 +1,4 @@
+import React from "react";
 import { FiBarChart2 } from "react-icons/fi";
 
 const Header = () => {
@@ -17,4 +18,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default React.memo(Header);

@@ -32,7 +32,6 @@ Customers earn:
 
 ## Installation & Setup
 git clone https://github.com/Mohameed-Asraff-Ali06/React-Assignment.git
-cd rewards-app
 npm install
 npm start
 
@@ -67,7 +66,7 @@ npm test
 ### 3️ Data Layer
 - Located in `services/`
 - Handles API interaction
-- Uses mock data (`public/mock/TransactionsData.json`)
+- Uses mock data (`public/TransactionsData.json`)
 
 ---
 

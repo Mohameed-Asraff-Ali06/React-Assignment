@@ -1,11 +1,12 @@
 import PropTypes from "prop-types";
+import React from "react";
 
 const TableHeader = ({ columns, onSort, sortConfig }) => {
   
   return (
     <thead className="bg-gray-300 border-b border-gray-400 text-gray-800">
       <tr>
-        {(columns ?? []).map((col) => {
+        {(columns || []).map((col) => {
           const isSorted = sortConfig?.key === col.accessor;
 
           return (
@@ -53,4 +54,4 @@ TableHeader.propTypes = {
   }).isRequired,
 };
 
-export default TableHeader;
+export default React.memo(TableHeader);

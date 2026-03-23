@@ -1,3 +1,5 @@
+import React from "react";
+
 const Loader = () => {
   return (
     <div className="flex justify-center items-center py-10">
@@ -6,4 +8,4 @@ const Loader = () => {
   );
 };
 
-export default Loader;
+export default React.memo(Loader);
