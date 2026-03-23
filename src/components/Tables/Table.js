@@ -16,15 +16,18 @@ const Table = ({ columns, data }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(5);
   // Sorting
-const handleSort = useCallback((key) => {
-  let direction = "asc";
+  const handleSort = useCallback(
+    (key) => {
+      let direction = "asc";
 
-  if (sortConfig.key === key && sortConfig.direction === "asc") {
-    direction = "desc";
-  }
+      if (sortConfig.key === key && sortConfig.direction === "asc") {
+        direction = "desc";
+      }
 
-  setSortConfig({ key, direction });
-}, [sortConfig]);
+      setSortConfig({ key, direction });
+    },
+    [sortConfig],
+  );
 
   const sortedData = useMemo(() => {
     return sortData(data || [], sortConfig);
@@ -35,17 +38,19 @@ const handleSort = useCallback((key) => {
   const debouncedSearch = useDebounce(searchTerm, 400);
 
   // Filtered data (using debounced value)
-const filteredData = useMemo(() => {
-  if (!debouncedSearch) return sortedData;
+  const filteredData = useMemo(() => {
+    if (!debouncedSearch) return sortedData;
 
-  const lowerSearch = debouncedSearch.toLowerCase();
+    const lowerSearch = debouncedSearch.toLowerCase();
 
-  return sortedData.filter((row) =>
-    Object.values(row).some((value) =>
-      String(value || "").toLowerCase().includes(lowerSearch)
-    )
-  );
-}, [sortedData, debouncedSearch]);
+    return sortedData.filter((row) =>
+      Object.values(row).some((value) =>
+        String(value || "")
+          .toLowerCase()
+          .includes(lowerSearch),
+      ),
+    );
+  }, [sortedData, debouncedSearch]);
 
   // Pagination
   const totalPages = Math.ceil((filteredData?.length || 0) / pageSize);
@@ -56,8 +61,8 @@ const filteredData = useMemo(() => {
   }, [filteredData, currentPage, pageSize]);
 
   useEffect(() => {
-  setCurrentPage(1);
-}, [debouncedSearch, pageSize]);
+    setCurrentPage(1);
+  }, [debouncedSearch, pageSize]);
   return (
     <div className="bg-white shadow-lg rounded-xl p-4">
       {/* Search */}

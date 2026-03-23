@@ -8,6 +8,5 @@ export const handleError = (functionName, error) => {
   console.error({
     function: functionName,
     message: error?.message || error,
-
   });
 };

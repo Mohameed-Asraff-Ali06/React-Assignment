@@ -2,7 +2,7 @@ import { useEffect, useState, useCallback } from "react";
 
 export const useFetch = (fetchFn) => {
   const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(false); 
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   const execute = useCallback(async () => {
@@ -12,13 +12,13 @@ export const useFetch = (fetchFn) => {
     try {
       const result = await fetchFn();
 
-      // ✅ Safe fallback
+      //Safe fallback
       setData(Array.isArray(result) ? result : []);
     } catch (err) {
       console.error("useFetch error:", err);
 
       setError(err?.message || "Something went wrong");
-      setData([]); // ✅ prevent UI crash
+      setData([]); // prevent UI crash
     } finally {
       setLoading(false);
     }

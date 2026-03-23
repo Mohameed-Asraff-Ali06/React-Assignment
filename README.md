@@ -160,6 +160,14 @@ npm test
 ### Sorting
 ![Sorting](src/assets/screenshots/sorting.png)
 
+### Error Boundary (UI Crash Handling)
+
+![Error Boundary](src/assets/screenshots/errorBoundaryUi.png)
+
+###  API Error Handling
+
+![API Error](src/assets/screenshots/apiError.png)
+
 ### Test Results
 
 All test cases passed successfully.
@@ -172,6 +180,7 @@ All test cases passed successfully.
 ![Test Coverage1](src/assets/screenshots/testCoverage1.png)
 
 ![Test Coverage2](src/assets/screenshots/testCoverage2.png)
+
 
 
 ## Author

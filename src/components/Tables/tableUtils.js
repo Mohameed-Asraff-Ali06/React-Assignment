@@ -39,9 +39,7 @@ export const sortData = (data = [], sortConfig) => {
 
       // Handle numbers
       if (typeof aValue === "number" && typeof bValue === "number") {
-        return direction === "asc"
-          ? aValue - bValue
-          : bValue - aValue;
+        return direction === "asc" ? aValue - bValue : bValue - aValue;
       }
 
       // Handle mixed types (fallback to string compare)

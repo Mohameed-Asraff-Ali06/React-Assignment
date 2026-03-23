@@ -4,7 +4,7 @@ import React from "react";
 const TableBody = ({ data, columns }) => {
   return (
     <tbody>
-      {(data?.length || 0 )=== 0 ? (
+      {(data?.length || 0) === 0 ? (
         <tr>
           <td
             colSpan={columns?.length || 1}

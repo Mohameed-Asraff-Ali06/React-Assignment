@@ -7,46 +7,50 @@ import {
   calculateRewardPoints,
   calculateTotalRewards,
 } from "../utils/rewardUtils";
+
 import {
   MONTHLY_COLUMNS,
   TOTAL_COLUMNS,
   TRANSACTION_COLUMNS,
 } from "../components/Tables/tableColumns";
+
 import Loader from "../components/common/Loader";
 import ErrorMessage from "../components/common/ErrorMessage";
 import SummaryCards from "../components/dashboard/SummaryCards";
 import TopCustomer from "../components/dashboard/TopCustomer";
 
+const TABS = ["transactions", "monthly", "total"];
+
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState("transactions");
   const { transactions, loading, error, retry } = useTransactions();
 
-  // Sort transactions by date
+  // Sorted transactions
   const sortedTransactions = useMemo(() => {
     return [...(transactions || [])].sort(
       (a, b) => new Date(a?.date || 0) - new Date(b?.date || 0),
     );
   }, [transactions]);
 
-  // Add reward points to each transaction
+  // Transactions with reward points
   const transactionsWithPoints = useMemo(() => {
-    return (sortedTransactions || []).map((tx) => ({
+    return sortedTransactions.map((tx) => ({
       ...tx,
       rewardPoints: calculateRewardPoints(tx?.price || 0),
     }));
   }, [sortedTransactions]);
 
-  // Aggregate monthly rewards
+  // Monthly aggregation
   const monthly = useMemo(() => {
-    return aggregateMonthlyRewards(sortedTransactions || []);
+    return aggregateMonthlyRewards(sortedTransactions);
   }, [sortedTransactions]);
 
-  // Calculate total rewards per customer
+  // Total rewards
   const totalRewardPoints = useMemo(() => {
-    return calculateTotalRewards(monthly || []);
+    return calculateTotalRewards(monthly);
   }, [monthly]);
 
-  // Find top customer
+  // Top customer
   const topCustomer = useMemo(() => {
     return totalRewardPoints.reduce(
       (max, curr) =>
@@ -55,32 +59,33 @@ const Dashboard = () => {
     );
   }, [totalRewardPoints]);
 
-  //total reward points  for all customers
+  // Total points sum
   const totalCustomerPoints = useMemo(() => {
-    return (totalRewardPoints || []).reduce(
+    return totalRewardPoints.reduce(
       (sum, c) => sum + (c?.totalRewardPoints || 0),
       0,
     );
   }, [totalRewardPoints]);
 
-  // Loading + Error
+  // Loading & Error
   if (loading) return <Loader />;
   if (error) return <ErrorMessage message={error} onRetry={retry} />;
+
   return (
     <div className="p-6">
-      {/* Summary Cards */}
+      {/* Summary */}
       <SummaryCards
-        totalCustomers={totalRewardPoints?.length || 0}
-        totalTransactions={transactions?.length || 0}
+        totalCustomers={totalRewardPoints.length}
+        totalTransactions={transactionsWithPoints.length}
         totalCustomerPoints={totalCustomerPoints}
       />
 
       {/* Top Customer */}
       <TopCustomer customer={topCustomer} />
 
-      {/*  Tabs */}
+      {/* Tabs */}
       <div className="flex gap-6 border-b mb-3">
-        {["transactions", "monthly", "total"].map((tab) => (
+        {TABS.map((tab) => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
@@ -91,27 +96,25 @@ const Dashboard = () => {
             }`}
           >
             {tab}
-
-            {/* Active underline */}
             {activeTab === tab && (
-              <span className="absolute left-0 bottom-0 w-full h-0.5 bg-blue-600 rounded"></span>
+              <span className="absolute left-0 bottom-0 w-full h-0.5 bg-blue-600 rounded" />
             )}
           </button>
         ))}
       </div>
 
-      {/* 📋 Table */}
+      {/* Table */}
       <div>
         {activeTab === "transactions" && (
-          <Table columns={TRANSACTION_COLUMNS} data={transactionsWithPoints || []} />
+          <Table columns={TRANSACTION_COLUMNS} data={transactionsWithPoints} />
         )}
 
         {activeTab === "monthly" && (
-          <Table columns={MONTHLY_COLUMNS} data={monthly || []} />
+          <Table columns={MONTHLY_COLUMNS} data={monthly} />
         )}
 
         {activeTab === "total" && (
-          <Table columns={TOTAL_COLUMNS} data={totalRewardPoints || []} />
+          <Table columns={TOTAL_COLUMNS} data={totalRewardPoints} />
         )}
       </div>
     </div>

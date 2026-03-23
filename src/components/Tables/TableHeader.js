@@ -2,7 +2,6 @@ import PropTypes from "prop-types";
 import React from "react";
 
 const TableHeader = ({ columns, onSort, sortConfig }) => {
-  
   return (
     <thead className="bg-gray-300 border-b border-gray-400 text-gray-800">
       <tr>

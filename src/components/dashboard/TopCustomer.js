@@ -3,8 +3,9 @@ import PropTypes from "prop-types";
 import { FiStar } from "react-icons/fi";
 
 const TopCustomer = ({ customer }) => {
+  // Safely handle missing or incomplete customer data
   const name = customer?.customerName || "N/A";
-  const points = customer?.totalRewardPoints ?? 0;
+  const points = customer?.totalRewardPoints || 0;
 
   return (
     <div className="flex items-center justify-between bg-white border rounded-lg px-4 py-3 shadow-sm mb-6 max-w-md">

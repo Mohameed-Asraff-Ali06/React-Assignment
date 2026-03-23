@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { FiUsers, FiShoppingCart, FiAward } from "react-icons/fi";
 
+// Defines card metadata and corresponding icons
 const cardData = [
   {
     label: "Total Customers",
@@ -25,6 +26,7 @@ const SummaryCards = ({
   totalTransactions,
   totalCustomerPoints,
 }) => {
+  // Maps prop values to their corresponding keys for easy access
   const values = {
     totalCustomers,
     totalTransactions,

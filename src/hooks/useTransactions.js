@@ -13,7 +13,6 @@ import { fetchTransactionsData } from "../services/transactionsApi";
 export const useTransactions = () => {
   const { data, loading, error, retry } = useFetch(fetchTransactionsData);
 
- 
   const transactions = data || [];
 
   return {
