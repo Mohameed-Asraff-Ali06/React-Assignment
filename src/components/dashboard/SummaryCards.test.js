@@ -10,7 +10,6 @@ describe("SummaryCards", () => {
 
   test("renders all summary cards", () => {
     render(<SummaryCards {...props} />);
-
     expect(screen.getByText("Total Customers")).toBeInTheDocument();
     expect(screen.getByText("Total Transactions")).toBeInTheDocument();
     expect(screen.getByText("Total Rewards")).toBeInTheDocument();
@@ -18,7 +17,6 @@ describe("SummaryCards", () => {
 
   test("displays correct values", () => {
     render(<SummaryCards {...props} />);
-
     expect(screen.getByText("10")).toBeInTheDocument();
     expect(screen.getByText("50")).toBeInTheDocument();
     expect(screen.getByText("200")).toBeInTheDocument();
@@ -30,7 +28,7 @@ describe("SummaryCards", () => {
         totalCustomers={0}
         totalTransactions={0}
         totalCustomerPoints={0}
-      />
+      />,
     );
 
     expect(screen.getAllByText("0").length).toBeGreaterThan(0);

@@ -10,75 +10,51 @@ describe("useDebounce", () => {
 
   it("should return initial value immediately", () => {
     const { result } = renderHook(() => useDebounce("hello", 400));
-
     expect(result.current).toBe("hello");
   });
 
   it("should update value after delay", () => {
     const { result, rerender } = renderHook(
       ({ value }) => useDebounce(value, 400),
-      { initialProps: { value: "a" } }
+      { initialProps: { value: "a" } },
     );
-
-    // update value
     rerender({ value: "abc" });
-
-    // before delay → still old value
     expect(result.current).toBe("a");
-
-    // fast-forward time
     act(() => {
       jest.advanceTimersByTime(400);
     });
-
-    // after delay → updated
     expect(result.current).toBe("abc");
   });
 
   it("should not update value before delay", () => {
     const { result, rerender } = renderHook(
       ({ value }) => useDebounce(value, 400),
-      { initialProps: { value: "test" } }
+      { initialProps: { value: "test" } },
     );
-
     rerender({ value: "updated" });
-
     act(() => {
-      jest.advanceTimersByTime(200); // half time
+      jest.advanceTimersByTime(200);
     });
-
-    // still old value
     expect(result.current).toBe("test");
   });
 
   it("should reset timer if value changes quickly", () => {
     const { result, rerender } = renderHook(
       ({ value }) => useDebounce(value, 400),
-      { initialProps: { value: "a" } }
+      { initialProps: { value: "a" } },
     );
-
-    // first change
     rerender({ value: "ab" });
-
     act(() => {
       jest.advanceTimersByTime(200);
     });
-
-    // second change before timer completes
     rerender({ value: "abc" });
-
     act(() => {
       jest.advanceTimersByTime(200);
     });
-
-    // still not updated
     expect(result.current).toBe("a");
-
     act(() => {
       jest.advanceTimersByTime(200);
     });
-
-    // now updated
     expect(result.current).toBe("abc");
   });
 });

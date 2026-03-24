@@ -21,12 +21,12 @@ const cardData = [
   },
 ];
 
+// Displays summary cards for total customers, transactions, and rewards
 const SummaryCards = ({
   totalCustomers,
   totalTransactions,
   totalCustomerPoints,
 }) => {
-  // Maps prop values to their corresponding keys for easy access
   const values = {
     totalCustomers,
     totalTransactions,

@@ -9,12 +9,10 @@ describe("TableHeader", () => {
   ];
 
   const mockOnSort = jest.fn();
-
   const defaultSortConfig = {
     key: null,
     direction: "asc",
   };
-
   afterEach(() => {
     jest.clearAllMocks();
   });
@@ -30,7 +28,6 @@ describe("TableHeader", () => {
         />
       </table>
     );
-
     expect(screen.getByText("Name")).toBeInTheDocument();
     expect(screen.getByText("Age")).toBeInTheDocument();
     expect(screen.getByText("City")).toBeInTheDocument();
@@ -49,7 +46,6 @@ describe("TableHeader", () => {
     );
 
     fireEvent.click(screen.getByText("Name"));
-
     expect(mockOnSort).toHaveBeenCalledWith("name");
   });
 
@@ -64,9 +60,7 @@ describe("TableHeader", () => {
         />
       </table>
     );
-
     fireEvent.click(screen.getByText("City"));
-
     expect(mockOnSort).not.toHaveBeenCalled();
   });
 

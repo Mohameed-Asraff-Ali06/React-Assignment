@@ -6,6 +6,7 @@ import { sortData } from "./tableUtils";
 import { FiChevronLeft, FiChevronRight, FiSearch } from "react-icons/fi";
 import useDebounce from "../../hooks/useDebounce";
 
+// A reusable table component with sorting, filtering, and pagination
 const Table = ({ columns, data }) => {
   const [sortConfig, setSortConfig] = useState({
     key: null,
@@ -19,11 +20,9 @@ const Table = ({ columns, data }) => {
   const handleSort = useCallback(
     (key) => {
       let direction = "asc";
-
       if (sortConfig.key === key && sortConfig.direction === "asc") {
         direction = "desc";
       }
-
       setSortConfig({ key, direction });
     },
     [sortConfig],
@@ -34,15 +33,13 @@ const Table = ({ columns, data }) => {
   }, [data, sortConfig]);
 
   // Filtering
-  // ebounced value
+  // debounced value
   const debouncedSearch = useDebounce(searchTerm, 400);
 
   // Filtered data (using debounced value)
   const filteredData = useMemo(() => {
     if (!debouncedSearch) return sortedData;
-
     const lowerSearch = debouncedSearch.toLowerCase();
-
     return sortedData.filter((row) =>
       Object.values(row).some((value) =>
         String(value || "")
@@ -54,7 +51,6 @@ const Table = ({ columns, data }) => {
 
   // Pagination
   const totalPages = Math.ceil((filteredData?.length || 0) / pageSize);
-
   const paginatedData = useMemo(() => {
     const start = (currentPage - 1) * pageSize;
     return filteredData?.slice(start, start + pageSize) || [];
@@ -66,10 +62,8 @@ const Table = ({ columns, data }) => {
   return (
     <div className="bg-white shadow-lg rounded-xl p-4">
       {/* Search */}
-
       <div className="relative mb-4">
         <FiSearch className="absolute left-3 top-3 text-gray-400" />
-
         <input
           type="text"
           placeholder="Search transactions..."
@@ -101,7 +95,7 @@ const Table = ({ columns, data }) => {
             value={pageSize}
             onChange={(e) => {
               setPageSize(Number(e.target.value));
-              setCurrentPage(1); // reset to first page
+              setCurrentPage(1);
             }}
             className="border rounded px-2 py-1 text-sm"
           >
@@ -113,7 +107,6 @@ const Table = ({ columns, data }) => {
             <option value={50}>50</option>
           </select>
         </div>
-
         <div className="flex items-center gap-6">
           <button
             disabled={currentPage === 1}
@@ -122,11 +115,9 @@ const Table = ({ columns, data }) => {
           >
             <FiChevronLeft />
           </button>
-
           <span className="text-sm font-medium text-gray-700">
             Page {currentPage} of {totalPages}
           </span>
-
           <button
             disabled={currentPage === totalPages}
             onClick={() => setCurrentPage((p) => p + 1)}

@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import React from "react";
 
+// Renders the body of the table, displaying rows of data based on provided columns
 const TableBody = ({ data, columns }) => {
   return (
     <tbody>

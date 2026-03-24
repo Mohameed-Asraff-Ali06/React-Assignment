@@ -1,13 +1,13 @@
 import PropTypes from "prop-types";
 import React from "react";
 
+// Renders the header of the table, displaying column labels and sort indicators
 const TableHeader = ({ columns, onSort, sortConfig }) => {
   return (
     <thead className="bg-gray-300 border-b border-gray-400 text-gray-800">
       <tr>
         {(columns || []).map((col) => {
           const isSorted = sortConfig?.key === col.accessor;
-
           return (
             <th
               key={col.accessor}

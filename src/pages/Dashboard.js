@@ -6,20 +6,17 @@ import {
   calculateRewardPoints,
   calculateTotalRewards,
 } from "../utils/rewardUtils";
-
 import {
   MONTHLY_COLUMNS,
   TOTAL_COLUMNS,
   TRANSACTION_COLUMNS,
 } from "../components/Tables/tableColumns";
-
 import Loader from "../components/common/Loader";
 import ErrorMessage from "../components/common/ErrorMessage";
 import SummaryCards from "../components/dashboard/SummaryCards";
 import TopCustomer from "../components/dashboard/TopCustomer";
 
 const TABS = ["transactions", "monthly", "total"];
-
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState("transactions");
 

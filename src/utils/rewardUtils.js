@@ -10,14 +10,12 @@ export const calculateRewardPoints = (price = 0) => {
     if (typeof price !== "number" || isNaN(price) || price <= 0) {
       return 0;
     }
-
     const flooredPrice = Math.floor(price);
     let points = 0;
 
     if (flooredPrice > 100) {
       points += (flooredPrice - 100) * 2;
     }
-
     if (flooredPrice > 50) {
       points += Math.min(flooredPrice, 100) - 50;
     }
@@ -58,19 +56,15 @@ export const aggregateMonthlyRewards = (transactions = []) => {
       if (!txn || typeof txn !== "object") return acc;
 
       const { customerId, customerName, date, price } = txn;
-
-      // Required fields check
       if (!customerId || !date) return acc;
 
       const parsedDate = new Date(date);
       if (isNaN(parsedDate)) return acc;
-
       const month = parsedDate.toLocaleString("default", { month: "short" });
       const year = parsedDate.getFullYear();
 
       const key = `${customerId}-${month}-${year}`;
       const rewardPoints = calculateRewardPoints(price);
-
       if (!acc[key]) {
         acc[key] = {
           customerId,
@@ -80,7 +74,6 @@ export const aggregateMonthlyRewards = (transactions = []) => {
           rewardPoints: 0,
         };
       }
-
       acc[key].rewardPoints += rewardPoints;
 
       return acc;
@@ -118,7 +111,6 @@ export const calculateTotalRewards = (monthlyRewards = []) => {
       if (!item || typeof item !== "object") return acc;
 
       const { customerId, customerName, rewardPoints } = item;
-
       if (!customerId) return acc;
 
       if (!acc[customerId]) {
@@ -128,7 +120,6 @@ export const calculateTotalRewards = (monthlyRewards = []) => {
           totalRewardPoints: 0,
         };
       }
-
       acc[customerId].totalRewardPoints +=
         typeof rewardPoints === "number" ? rewardPoints : 0;
 

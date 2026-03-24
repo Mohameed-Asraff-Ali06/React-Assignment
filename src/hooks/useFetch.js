@@ -15,7 +15,6 @@ import { handleError } from "../components/common/errorHandler";
  * }}
  *
  * @example
- * const options = useMemo(() => ({ method: "GET" }), []);
  *
  * const { data, loading, error, retry } = useFetch(
  *   "/transactionsData.json",
@@ -34,8 +33,6 @@ export const useFetch = (url, options = {}, customErrorMessage) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-
-  // keep options stable
   const optionsRef = useRef(options);
 
   useEffect(() => {
@@ -44,26 +41,19 @@ export const useFetch = (url, options = {}, customErrorMessage) => {
 
   const execute = useCallback(async () => {
     if (!url) return;
-
     setLoading(true);
     setError(null);
 
     try {
       const response = await fetch(url, optionsRef.current);
-
       if (!response.ok) {
         throw new Error();
       }
-
       const result = await response.json();
-
       setData(Array.isArray(result) ? result : []);
     } catch (err) {
       handleError("useFetch error:", err);
-
-      // clean user message
       setError(customErrorMessage || "Unable to load data. Please try again.");
-
       setData([]);
     } finally {
       setLoading(false);

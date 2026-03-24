@@ -12,6 +12,7 @@ describe("Table Component", () => {
     { id: 2, name: "Alice", age: 25 },
   ];
 
+  //  Renders table headers
   test("renders table headers", () => {
     render(<Table columns={columns} data={data} />);
 
@@ -19,6 +20,7 @@ describe("Table Component", () => {
     expect(screen.getByText("Age")).toBeInTheDocument();
   });
 
+  //  Renders table data
   test("renders table data", () => {
     render(<Table columns={columns} data={data} />);
 
@@ -26,6 +28,7 @@ describe("Table Component", () => {
     expect(screen.getByText("Alice")).toBeInTheDocument();
   });
 
+  //  Shows empty state when no data
   test("shows empty state when no data", () => {
     render(<Table columns={columns} data={[]} />);
 

@@ -1,5 +1,6 @@
 import React from "react";
 
+// loader component with a spinning animation
 const Loader = () => {
   return (
     <div className="flex justify-center items-center py-10">

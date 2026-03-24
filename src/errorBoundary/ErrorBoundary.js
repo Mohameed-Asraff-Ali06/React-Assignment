@@ -5,15 +5,15 @@ class ErrorBoundary extends React.Component {
     super(props);
     this.state = { hasError: false };
   }
-  // Update state when an error is caught
+
   static getDerivedStateFromError() {
     return { hasError: true };
   }
-  // Log error details for debugging
+
   componentDidCatch(error, errorInfo) {
     console.error("Error caught:", error, errorInfo);
   }
-  // Reload the page when the user clicks the reload button
+
   handleReload = () => {
     window.location.reload();
   };
@@ -26,12 +26,10 @@ class ErrorBoundary extends React.Component {
             <h2 className="text-2xl font-bold text-red-600 mb-3">
               ⚠️ Oops! Something went wrong
             </h2>
-
             <p className="text-gray-600 mb-6">
               We're sorry, an unexpected error occurred. Please try refreshing
               the page.
             </p>
-
             <button
               onClick={this.handleReload}
               className="px-5 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition"

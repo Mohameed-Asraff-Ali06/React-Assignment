@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 
-//  correct hook
+// Mock useFetch hook
 jest.mock("../hooks/useFetch", () => ({
   useFetch: jest.fn(),
 }));
@@ -11,8 +11,8 @@ import Dashboard from "./Dashboard";
 //  mock utils properly
 jest.mock("../utils/rewardUtils", () => ({
   calculateRewardPoints: jest.fn(() => 10),
-  aggregateMonthlyRewards: jest.fn(() => []),   // must return array
-  calculateTotalRewards: jest.fn(() => []),     // must return array
+  aggregateMonthlyRewards: jest.fn(() => []),   
+  calculateTotalRewards: jest.fn(() => []),     
 }));
 
 //  Mock components (keep simple)

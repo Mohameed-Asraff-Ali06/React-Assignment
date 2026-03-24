@@ -7,7 +7,6 @@ import { useState, useEffect } from "react";
  */
 const useDebounce = (value, delay = 400) => {
   const [debouncedValue, setDebouncedValue] = useState(value);
-  // Update debounced value after delay
   useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedValue(value);

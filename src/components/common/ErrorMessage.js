@@ -1,12 +1,12 @@
 import PropTypes from "prop-types";
 import React from "react";
 
+// Displays an error message with an optional retry button
 const ErrorMessage = ({ message, onRetry }) => {
   const safeMessage = message || "Something went wrong. Please try again.";
   return (
     <div className="flex flex-col items-center justify-center py-10 bg-red-50 rounded-lg">
       <p className="text-red-600 font-medium mb-2">⚠️ {safeMessage}</p>
-
       {onRetry && (
         <button
           onClick={onRetry}

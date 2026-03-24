@@ -1,6 +1,7 @@
 import React from "react";
 import { FiBarChart2 } from "react-icons/fi";
 
+// Header component for the rewards dashboard
 const Header = () => {
   return (
     <header className="bg-white border-b shadow-sm">

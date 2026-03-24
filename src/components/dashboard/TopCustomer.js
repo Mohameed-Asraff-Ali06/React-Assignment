@@ -2,8 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import { FiStar } from "react-icons/fi";
 
+// Displays the top customer with their name and points
 const TopCustomer = ({ customer }) => {
-  // Safely handle missing or incomplete customer data
   const name = customer?.customerName || "N/A";
   const points = customer?.totalRewardPoints || 0;
 
@@ -13,13 +13,11 @@ const TopCustomer = ({ customer }) => {
         <div className="bg-green-100 p-2 rounded-full">
           <FiStar className="text-green-600" />
         </div>
-
         <div>
           <p className="text-sm text-gray-500">Top Customer</p>
           <p className="text-sm font-medium text-gray-800">{name}</p>
         </div>
       </div>
-
       <div className="text-right">
         <p className="text-xs text-gray-500">Points</p>
         <p className="text-lg font-bold text-green-600">{points}</p>
