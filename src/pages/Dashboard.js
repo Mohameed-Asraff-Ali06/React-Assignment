@@ -22,16 +22,14 @@ const TABS = ["transactions", "monthly", "total"];
 
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState("transactions");
-  const options = useMemo(
-    () => ({
-      method: "GET",
-    }),
-    [],
-  );
+
+  // Stable options object for fetch
+  const options = useMemo(() => ({ method: "GET" }), []);
 
   const { data, loading, error, retry } = useFetch(
-    "/transactionsData.json",
+    "/TransactionsData.json",
     options,
+    "Failed to load transactions",
   );
 
   // Sorted transactions
@@ -53,12 +51,12 @@ const Dashboard = () => {
 
   // Monthly aggregation
   const monthly = useMemo(() => {
-    return aggregateMonthlyRewards(sortedTransactions);
+    return aggregateMonthlyRewards(sortedTransactions) || [];
   }, [sortedTransactions]);
 
   // Total rewards
   const totalRewardPoints = useMemo(() => {
-    return calculateTotalRewards(monthly);
+    return calculateTotalRewards(monthly) || [];
   }, [monthly]);
 
   // Top customer

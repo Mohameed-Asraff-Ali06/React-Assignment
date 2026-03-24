@@ -1,39 +1,69 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 
-// ✅ Mock hook (correct)
-jest.mock("../hooks/useTransactions", () => ({
-  useTransactions: jest.fn(),
+// ✅ FIX: correct hook
+jest.mock("../hooks/useFetch", () => ({
+  useFetch: jest.fn(),
 }));
 
-import { useTransactions } from "../hooks/useTransactions";
+import { useFetch } from "../hooks/useFetch";
 import Dashboard from "./Dashboard";
+
+// ✅ CRITICAL FIX: mock utils properly
+jest.mock("../utils/rewardUtils", () => ({
+  calculateRewardPoints: jest.fn(() => 10),
+  aggregateMonthlyRewards: jest.fn(() => []),   // must return array
+  calculateTotalRewards: jest.fn(() => []),     // must return array
+}));
+
+// ✅ Mock components (keep simple)
+jest.mock("../components/common/Loader", () => () => <div>Loading...</div>);
+jest.mock("../components/common/ErrorMessage", () => ({ message }) => (
+  <div>{message}</div>
+));
+jest.mock("../components/Tables/Table", () => () => <div>Table</div>);
+jest.mock("../components/dashboard/SummaryCards", () => () => (
+  <div>Summary</div>
+));
+jest.mock("../components/dashboard/TopCustomer", () => () => (
+  <div>TopCustomer</div>
+));
 
 describe("Dashboard", () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
- 
+  // ✅ Loader
+  test("renders loader", () => {
+    useFetch.mockReturnValue({
+      data: [],
+      loading: true,
+      error: null,
+      retry: jest.fn(),
+    });
 
-  //  Error state
+    render(<Dashboard />);
+    expect(screen.getByText("Loading...")).toBeInTheDocument();
+  });
+
+  // ✅ Error
   test("renders error message when error occurs", () => {
-    useTransactions.mockReturnValue({
-      transactions: [],
+    useFetch.mockReturnValue({
+      data: [],
       loading: false,
       error: "Error occurred",
       retry: jest.fn(),
     });
 
     render(<Dashboard />);
-
     expect(screen.getByText(/error/i)).toBeInTheDocument();
   });
 
-  //  Default render (transactions tab)
+  // ✅ Default tab
   test("renders transactions tab by default", () => {
-    useTransactions.mockReturnValue({
-      transactions: [
-        { id: 1, customer: "John", price: 120, date: "2024-01-01" },
+    useFetch.mockReturnValue({
+      data: [
+        { id: 1, customerId: "John", price: 120, date: "2024-01-01" },
       ],
       loading: false,
       error: null,
@@ -42,17 +72,16 @@ describe("Dashboard", () => {
 
     render(<Dashboard />);
 
-    // Use role instead of text
     expect(
       screen.getByRole("button", { name: /transactions/i })
     ).toBeInTheDocument();
   });
 
-  //  Switch to monthly tab
+  // ✅ Monthly tab
   test("switches to monthly tab", () => {
-    useTransactions.mockReturnValue({
-      transactions: [
-        { id: 1, customer: "John", price: 120, date: "2024-01-01" },
+    useFetch.mockReturnValue({
+      data: [
+        { id: 1, customerId: "John", price: 120, date: "2024-01-01" },
       ],
       loading: false,
       error: null,
@@ -61,17 +90,18 @@ describe("Dashboard", () => {
 
     render(<Dashboard />);
 
-    const monthlyTab = screen.getByRole("button", { name: /monthly/i });
-    fireEvent.click(monthlyTab);
+    fireEvent.click(screen.getByRole("button", { name: /monthly/i }));
 
-    expect(monthlyTab).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: /monthly/i })
+    ).toBeInTheDocument();
   });
 
-  // Switch to total tab
+  // ✅ Total tab
   test("switches to total tab", () => {
-    useTransactions.mockReturnValue({
-      transactions: [
-        { id: 1, customer: "John", price: 120, date: "2024-01-01" },
+    useFetch.mockReturnValue({
+      data: [
+        { id: 1, customerId: "John", price: 120, date: "2024-01-01" },
       ],
       loading: false,
       error: null,
@@ -80,11 +110,10 @@ describe("Dashboard", () => {
 
     render(<Dashboard />);
 
-    const totalTab = screen.getByRole("button", { name: /total/i });
-    fireEvent.click(totalTab);
+    fireEvent.click(screen.getByRole("button", { name: /total/i }));
 
-    expect(totalTab).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: /total/i })
+    ).toBeInTheDocument();
   });
-
-
 });
