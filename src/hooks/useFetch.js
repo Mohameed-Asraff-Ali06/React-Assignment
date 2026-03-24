@@ -1,28 +1,42 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
+import { handleError } from "../components/common/errorHandler";
 
-export const useFetch = (fetchFn) => {
+export const useFetch = (url, options = {}) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  const optionsRef = useRef(options);
+
+  useEffect(() => {
+    optionsRef.current = options;
+  }, [options]);
+
   const execute = useCallback(async () => {
+    if (!url) return;
+
     setLoading(true);
     setError(null);
 
     try {
-      const result = await fetchFn();
+      const response = await fetch(url, optionsRef.current);
 
-      //Safe fallback
+      if (!response.ok) {
+        
+        throw new Error("sorry, something went wrong we couldn't load the transactions data.");
+      }
+
+      const result = await response.json();
+
       setData(Array.isArray(result) ? result : []);
     } catch (err) {
-      console.error("useFetch error:", err);
-
+      handleError("useFetch error:", err);
       setError(err?.message || "Something went wrong");
-      setData([]); // prevent UI crash
+      setData([]);
     } finally {
       setLoading(false);
     }
-  }, [fetchFn]);
+  }, [url]);
 
   useEffect(() => {
     execute();

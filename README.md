@@ -64,17 +64,17 @@ Customers earn:
 ---
 
 ### 3️ Data Layer
-- Located in `services/`
-- Handles API interaction
-- Uses mock data (`public/TransactionsData.json`)
+- Uses static mock data located in public/transactionsData.json
+- Data is accessed directly via the Fetch API through the useFetch hook
+- No separate service layer is used to keep the implementation simple and aligned with the current scope
 
 ---
 
 ### 4️ Hooks Layer (Logic Abstraction)
-- Located in `hooks/`
-- Encapsulates reusable logic:
-  - `useFetch` → generic API handling
-  - `useTransactions` → domain-specific logic
+- Located in the hooks/ directory
+- Responsible for abstracting reusable logic across the application
+- Includes:
+    useFetch → a generic hook for handling API calls, including loading state, error handling, and retry functionality
 
 ---
 
@@ -128,7 +128,7 @@ Customers earn:
 -  Monthly reward aggregation per customer
 -  Total reward points calculation across months
 -  API handling (success, failure, and error states)
--  Custom hooks (`useFetch`, `useTransactions`)
+-  Custom hooks (`useFetch`)
 -  UI rendering (tables, summary cards, top customer)
 -  User interactions (tab switching, sorting)
 -  Error boundary handling

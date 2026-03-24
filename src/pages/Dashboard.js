@@ -1,7 +1,6 @@
 import { useMemo, useState } from "react";
 import Table from "../components/Tables/Table";
-import { useTransactions } from "../hooks/useTransactions";
-
+import { useFetch } from "../hooks/useFetch";
 import {
   aggregateMonthlyRewards,
   calculateRewardPoints,
@@ -23,14 +22,26 @@ const TABS = ["transactions", "monthly", "total"];
 
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState("transactions");
-  const { transactions, loading, error, retry } = useTransactions();
+  const options = useMemo(
+    () => ({
+      method: "GET",
+    }),
+    [],
+  );
+
+  const { data, loading, error, retry } = useFetch(
+    "/transactionsData.json",
+    options,
+  );
 
   // Sorted transactions
   const sortedTransactions = useMemo(() => {
-    return [...(transactions || [])].sort(
+    const transactions = Array.isArray(data) ? data : [];
+
+    return [...transactions].sort(
       (a, b) => new Date(a?.date || 0) - new Date(b?.date || 0),
     );
-  }, [transactions]);
+  }, [data]);
 
   // Transactions with reward points
   const transactionsWithPoints = useMemo(() => {
