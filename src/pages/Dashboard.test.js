@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 
-// ✅ FIX: correct hook
+//  correct hook
 jest.mock("../hooks/useFetch", () => ({
   useFetch: jest.fn(),
 }));
@@ -8,14 +8,14 @@ jest.mock("../hooks/useFetch", () => ({
 import { useFetch } from "../hooks/useFetch";
 import Dashboard from "./Dashboard";
 
-// ✅ CRITICAL FIX: mock utils properly
+//  mock utils properly
 jest.mock("../utils/rewardUtils", () => ({
   calculateRewardPoints: jest.fn(() => 10),
   aggregateMonthlyRewards: jest.fn(() => []),   // must return array
   calculateTotalRewards: jest.fn(() => []),     // must return array
 }));
 
-// ✅ Mock components (keep simple)
+//  Mock components (keep simple)
 jest.mock("../components/common/Loader", () => () => <div>Loading...</div>);
 jest.mock("../components/common/ErrorMessage", () => ({ message }) => (
   <div>{message}</div>
@@ -33,7 +33,7 @@ describe("Dashboard", () => {
     jest.clearAllMocks();
   });
 
-  // ✅ Loader
+  //  Loader
   test("renders loader", () => {
     useFetch.mockReturnValue({
       data: [],
@@ -46,7 +46,7 @@ describe("Dashboard", () => {
     expect(screen.getByText("Loading...")).toBeInTheDocument();
   });
 
-  // ✅ Error
+  //  Error
   test("renders error message when error occurs", () => {
     useFetch.mockReturnValue({
       data: [],
@@ -59,7 +59,7 @@ describe("Dashboard", () => {
     expect(screen.getByText(/error/i)).toBeInTheDocument();
   });
 
-  // ✅ Default tab
+  //  Default tab
   test("renders transactions tab by default", () => {
     useFetch.mockReturnValue({
       data: [
@@ -77,7 +77,7 @@ describe("Dashboard", () => {
     ).toBeInTheDocument();
   });
 
-  // ✅ Monthly tab
+  //  Monthly tab
   test("switches to monthly tab", () => {
     useFetch.mockReturnValue({
       data: [
@@ -97,7 +97,7 @@ describe("Dashboard", () => {
     ).toBeInTheDocument();
   });
 
-  // ✅ Total tab
+  //  Total tab
   test("switches to total tab", () => {
     useFetch.mockReturnValue({
       data: [
