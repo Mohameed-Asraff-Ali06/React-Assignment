@@ -1,12 +1,12 @@
 import { render, screen, fireEvent } from "@testing-library/react";
+import { useFetch } from "../hooks/useFetch";
+import Dashboard from "./Dashboard";
 
-// Mock useFetch hook
+//  correct hook
 jest.mock("../hooks/useFetch", () => ({
   useFetch: jest.fn(),
 }));
 
-import { useFetch } from "../hooks/useFetch";
-import Dashboard from "./Dashboard";
 
 //  mock utils properly
 jest.mock("../utils/rewardUtils", () => ({
