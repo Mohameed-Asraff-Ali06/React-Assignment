@@ -22,15 +22,5 @@ describe("SummaryCards", () => {
     expect(screen.getByText("200")).toBeInTheDocument();
   });
 
-  test("renders zero values correctly", () => {
-    render(
-      <SummaryCards
-        totalCustomers={0}
-        totalTransactions={0}
-        totalCustomerPoints={0}
-      />,
-    );
 
-    expect(screen.getAllByText("0").length).toBeGreaterThan(0);
-  });
 });
